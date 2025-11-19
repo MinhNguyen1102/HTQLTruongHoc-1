@@ -1,10 +1,18 @@
-select H.HoTen,D.Diem,M.TenMon,
-case
-   when D.Diem >= 8.0 then N'Gioi'
-   when D.Diem >=6.5 and D.Diem <= 7.9 then N'Kha'
-   when D.Diem >= 5.0 and D.Diem <= 6.4 then N'Trung Binh'
-   else N'Yeu'
-end as XepLoai
-from DiemSo D
-join HS as H on D.MaHS = H.MaHS
-join Mon as M on D.MaMon = M.TenMon;
+CREATE PROCEDURE sp_XemBangDiemVaXepLoai
+    @MaMon CHAR(5)
+AS
+BEGIN
+    SELECT 
+        h.HoTen, 
+        d.DiemSo,
+        CASE 
+            WHEN d.DiemSo >= 8.0 THEN N'Giỏi'
+            WHEN d.DiemSo >= 6.5 THEN N'Khá'
+            WHEN d.DiemSo >= 5.0 THEN N'Trung Bình'
+            ELSE N'Yếu'
+        END AS XepLoai
+    FROM BangDiem d
+    JOIN HocSinh h ON d.MaHS = h.MaHS
+    WHERE d.MaMon = @MaMon;
+END;
+GO
