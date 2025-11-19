@@ -1,6 +1,9 @@
-create table KetQua(
-   MaHS CHAR(10) FOREIGN KEY REFERENCES HS(MaHS),
-   TenKyThi NVARCHAR(50),
-   GiaiThuong NVARCHAR(50),
-   PRIMARY KEY(MaHS,TenKyThi)
-);
+CREATE PROCEDURE sp_TimGiaoVienThamNien
+AS
+BEGIN
+    SELECT MaGV, HoTen, NgayVaoLam, 
+           DATEDIFF(YEAR, NgayVaoLam, GETDATE()) AS SoNamCongTac
+    FROM GiaoVien
+    WHERE DATEDIFF(YEAR, NgayVaoLam, GETDATE()) >= 5;
+END;
+GO
